@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,700,900');
+
+/* #dd5e5e */
+
+
+*{
+	box-sizing: border-box;
+	font-family: 'Avenir Next';
+	font-weight:200;
+}
+/* General */
+.contain{
+	display:flex;
+	padding-top:50px;
+	height:100vh;
+}
+.main{
+	padding: 0;
+	margin:0;
+	position:relative;
+}
+.sidebar{
+	height:calc(100vh - 50px);
+}
+.main-chat{
+	height:calc(100vh - 115px);
+	position: relative;
+}
+ol{
+	padding:0px 40px;
+}
+.layout-ol{
+	margin:0;
+	list-style: none;
+	height:calc(100vh - 50px);
+}
+.layout-ol > li{
+	display:inline;
+}
+.mainchat-li{
+	width:100%;
+}
+.contain-content{
+	padding:20px;
+}
+li{
+	list-style: none;
+}
+/* Nav bar */
+nav.nav{
+	position:fixed;
+	top:0;
+	width:100%;
+	background-color: #a56d47;
+	height:50px;
+}
+nav.nav > contain-nav-text{
+	margin:10px;
+	display:table;
+}
+.contain-nav-text h4{
+	position:absolute;
+	font-size:25px;
+	letter-spacing: 4px;
+	height:50px;
+	text-align: center;
+	color:white;
+	font-family: 'Avenir Next';
+	font-weight:200;
+	display:table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width:100%;
+}
+
+/* Side bar */
+
+.sidebar{
+	background-color:white;
+	float:left;
+	flex: 0 0 200px;
+	color:#bda696;
+	border-right:4px solid #e1d1c5;
+}
+.sidebar-content h5{
+	position:relative;
+	width:100%;
+	text-align: center;
+	font-family: 'Avenir Next';
+	font-weight:200;
+}
+.contain-image{
+	width:100%;
+	margin-top:30px;
+}
+img.status{
+	width:20px;
+	height:20px;
+	display:block;
+	margin:auto;
+}
+
+/* Main-chatroom */
+.main-chat{
+	overflow-y:scroll;
+	width:100%;
+}
+.chatroom{
+	width:100%;
+	padding-top:40px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+/* One-message */
+
+.one-message{
+	width:70vw;
+}
+.icon{
+	margin-top:3px;
+	height:40px;
+	width:40px;
+	float:left;
+	margin-right:15px;
+	vertical-align: middle;
+}
+p.message-content{
+	border-radius:5px;
+	display:inline-block;
+	padding:10px 15px;
+	max-width:50vw;
+	color:white;
+	background-color: #9f8573;
+}
+
+.user .icon{
+	float:right;
+	margin-right:0;
+	margin-left:15px;
+}
+.user .one-message{
+	float:right;
+}
+.user p.message-content{
+	float:right;
+}
+
+
+/* Message-footer */
+
+.message-footer{
+	display:flex;
+	position:fixed;
+	bottom:0;
+	width:calc(100% - 200px);
+	padding:10px;
+	height:65px;
+	background-color:#e7dad0;
+	flex-shrink: 0;
+	right:0;
+}
+
+form.message-form{
+	display:flex;
+
+	width:100%;
+}
+form.message-form input{
+	height:100%;
+	display:flex;
+	flex-grow:1;
+	border:none;
+	font-weight:300;
+	padding:10px;
+	margin-right:20px;
+}
+form.message-form input:focus{
+	outline:none;
+}
+form button:focus{
+	outline:none;
+}
+
+.submitButton{
+	background-color:#bf7f54;
+	color:white;
+	height:100%;
+	padding:0 20px;
+	border:1px;
+}
