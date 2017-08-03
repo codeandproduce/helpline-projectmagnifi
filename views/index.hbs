@@ -26,8 +26,12 @@
 					</div>
 
 						<div class="main-chat">
-							<div class="chatroom  contain-content">
+							<div class="chatroom contain-content">
 								<ol class="contain-message-list">
+									<li class="date">
+										<p>{{ chatId }}</p>
+										<hr />
+									</li>
 									<li class="admin message">
 										<div class="one-message">
 											<img class="icon" src="/public/sampleMich.png"/>
@@ -41,7 +45,7 @@
 											<p class="message-content">Are you okay?</p>
 										</div>
 									</li>
-									<li class="admin message">
+									<!-- <li class="admin message">
 										<div class="one-message">
 											<img class="icon" src="/public/sampleMich.png"/>
 											<p class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -58,7 +62,7 @@
 											<img class="icon" src="/public/common.png"/>
 											<p class="message-content">This is from the user.</p>
 										</div>
-									</li>
+									</li> -->
 								</ol>
 							</div>
 
@@ -66,21 +70,23 @@
 						</div>
 						<div class="message-footer">
 								<form class="message-form">
-									<input type="text" placeholder="Message"/>
-									<button class="submitButton">Send</button>
+									<input name="message" type="text" placeholder="Message" autocomplete="off"/>
+									<button type="submit" class="submitButton">Send</button>
 								</form>
 						</div>
 		</div>
 
-
-<script src="/socket.io/socket.io.js"></script>
-		<script
-  src="http://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-
+		<script type="text/javascript" src="/public/scripts/jquery-3.2.1.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
 
 		<script type="text/javascript" src="/public/scripts/index.js"></script>
+		<script type="text/javascript" src="/public/scripts/moment.js"></script>
+		<script type="text/javascript">
+			$('input').focus();
+			$('document').ready(function(){
+				console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+			});
+		</script>
 	</body>
 </html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin login</title>
+    <style>
+      body{
+        background-color:#a56d47;
+      }
+      div.contain{
+        height:100%;
+        width:100%;
+        font-family: 'Avenir Next';
+        font-weight:300;
+      }
+      form{
+        position:relative;
+        background-color: #e1d1c5;
+        border:3px solid #bda696;
+        padding:30px;
+        border-radius:5px;
+        width:500px;
+        height:300px;
+        margin:auto;
+        margin-top:20vh;
+        display:block;
+      }
+      form input, form label, form button{
+        position: relative;
+        width:60%;
+        margin:10px auto;
+        display: block;
+        text-align: center;
+      }
+      form input{
+        padding:10px 15px;
+        border:1px solid #bda696;
+        font-size:12px;
+      }
+      ul{
+        margin:0;
+        padding:0;
+      }
+      li{
+        list-style: none;
+        margin:auto;
+
+      }
+      button{
+        padding:13px 15px;
+        border: 1px solid #bda696;
+        font-size:15px;
+        color:white;
+        background-color:#a56d47;
+        cursor: pointer;
+      }
+      button:hover{
+        background-color:white;
+        transition: all ease-in-out 250ms;
+        color:#a56d47;
+      }
+      li.button{
+        margin-top:40px;
+      }
+      *:focus{
+        outline:none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="contain">
+      <form method="post">
+        <div class="contain">
+          <ul>
+            {{#if error}}
+              <li>
+                {{error}}
+              </li>
+            {{/if}}
+
+            <li>
+              <label for="email">Email</label>
+            </li>
+            <li>
+              <input name="email" type="email" placeholder="john@doe.com" />
+            </li>
+            <li>
+              <label for="password">Password</label>
+            </li>
+            <li>
+              <input name="password" type="password" placeholder="12345678" />
+            </li>
+            <li class="button">
+              <button type="submit">Login</button>
+            </li>
+
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+          </ul>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

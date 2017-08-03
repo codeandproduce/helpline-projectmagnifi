@@ -37,9 +37,6 @@ ol{
 .layout-ol > li{
 	display:inline;
 }
-.mainchat-li{
-	width:100%;
-}
 .contain-content{
 	padding:20px;
 }
@@ -107,7 +104,7 @@ img.status{
 }
 .chatroom{
 	width:100%;
-	padding-top:40px;
+	padding-top:30px;
 	padding-left:20px;
 	padding-right:20px;
 }
@@ -146,6 +143,14 @@ p.message-content{
 	float:right;
 }
 
+li.date{
+	width:100%;
+	text-align:center;
+}
+li.date > p{
+	width:100%;
+	text-align:center;
+}
 
 /* Message-footer */
 
@@ -173,12 +178,9 @@ form.message-form input{
 	border:none;
 	font-weight:300;
 	padding:10px;
-	margin-right:20px;
+	margin-right:10px;
 }
 form.message-form input:focus{
-	outline:none;
-}
-form button:focus{
 	outline:none;
 }
 
@@ -188,4 +190,11 @@ form button:focus{
 	height:100%;
 	padding:0 20px;
 	border:1px;
+}
+form button:hover{
+	background-color:#9f6945;
+	transition: all ease-in-out 250ms;
+}
+form button:focus{
+	outline:none;
 }

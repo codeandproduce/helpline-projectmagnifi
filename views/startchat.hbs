@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Chat</title>
+    <style>
+    *{
+      box-sizing: border-box;
+      font-family:'Avenir Next';
+    }
+    body{
+      padding:0;
+      margin:0;
+      width:100vw;
+      height:100vh;
+    }
+    .option{
+      margin-top:20%;
+    }
+    .container{
+      width:100%;
+      height:100%;
+      padding:30px;
+      background-color:#a56d47;
+    }
+    .option h1{
+      color:white;
+      font-size:40px;
+      font-weight:100;
+      width:100%;
+      text-align:center;
+    }
+    form{
+      display: block;
+      margin:auto;
+    }
+    input{
+      padding:10px 20px;
+      font-size:15px;
+      border:1px solid white;
+      text-align: center;
+      width:50%;
+      display: block;
+      margin: auto;
+
+    }
+    button{
+      padding:15px 25px;
+      font-size:15px;
+      border:1px solid #bda696;
+      background-color:#bda696;
+      color:white;
+      display: block;
+      margin: auto;
+    }
+    button:hover{
+      transition: all 250ms ease-in-out;
+      background-color:white;
+      color:#a56d47;
+    }
+    ul{
+      margin:0;
+      padding:0;
+    }
+    li{
+      list-style: none;
+      margin:20px;
+      margin-top:40px;
+    }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="option">
+        <h1>Have a chat with Michelle Sun to have a talk.</h1>
+        <form method="post">
+          <ul>
+            <li><input name="name" type="text" placeholder="Your name (optional)" /></li>
+            <li><button type="submit">Create chatroom</button></li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
