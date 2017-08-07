@@ -32,12 +32,14 @@
 										<p>{{ time }}</p>
 										<hr />
 									</li>
-									<li class="admin message">
+									<li class="user message">
 										<div class="one-message">
 											<img class="icon" src="/public/sampleMich.png"/>
 											<p class="message-content">Hi! I'm Michelle.</p>
 										</div>
 									</li>
+
+
 									<!-- <li class="admin message">
 										<div class="one-message">
 											<img class="icon" src="/public/sampleMich.png"/>
@@ -71,25 +73,62 @@
 
 		<script type="text/javascript" src="/public/scripts/jquery-3.2.1.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
-
-
-		<script type="text/javascript" src="/public/scripts/index.js"></script>
 		<script type="text/javascript" src="/public/scripts/moment.js"></script>
 		<script type="text/javascript">
-		$( document.body ).click(function() {
-			$('input').focus();
+		$('input').focus();
+		var socket = io();
+		socket.on('connect', function(){
+			var route = window.location.pathname.replace('/admin/chatroomadmin/adminchat/','');
+			socket.emit('path', {
+				path:route
+			});
+			socket.emit('join room',{
+				route: route
+			});
 		});
-		$('input').on('blur',function () {
-		    var blurEl = $(this);
-		    setTimeout(function() {
-		        blurEl.focus();
-		    }, 10);
+		$('.message-form').on('submit', function(e){
+		  e.preventDefault();
+		  if($('[name="message"]').val() !== ''){
+		    socket.emit('sendMessage', {
+		      message:removeTags($('[name=message]').val()),
+					from:'admin'
+		    });
+				$('.contain-message-list').append(`<li class='user message'>\
+		       <div class='one-message'>\
+		         <img class='icon' src='/public/sampleMich.png'/>\
+		         <p class='message-content'>${removeTags($('[name=message]').val())}</p>\
+		         <img class="loading" src="/public/loadwheel.png"/>\
+		       </div>\
+		     </li>`);
+				$('[name="message"]').val('');
+				$('.main-chat').scrollTop($('.main-chat')[0].scrollHeight);
+			}
 		});
 
-			$('input').focus();
-			$('document').ready(function(){
-				console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
-			});
+		socket.on('messageSent', function(information){
+			console.log('message sent called');
+			if(information.from === 'user'){
+				$('.contain-message-list').append(`<li class='admin message'>\
+			     <div class='one-message'>\
+			       <img class='icon' src='/public/common.png'/>\
+			       <p class='message-content'>${removeTags(information.message)}</p>\
+			     </div>\
+			   </li>`);
+				 $('.main-chat').scrollTop($('.main-chat')[0].scrollHeight);
+		 	}
+			if(information.from === 'admin'){
+				$('.loading').css('opacity','0');
+			}
+		});
+
+		function removeTags(string, array){
+		  return array ? string.split("<").filter(function(val){ return f(array, val); }).map(function(val){ return f(array, val); }).join("") : string.split("<").map(function(d){ return d.split(">").pop(); }).join("");
+		  function f(array, value){
+		    return array.map(function(d){ return value.includes(d + ">"); }).indexOf(true) != -1 ? "<" + value : value.split(">")[1];
+		  }
+		}
+
+
 		</script>
 	</body>
 </html>

@@ -1,1 +1,74 @@
-LOGGED IN!
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin Chat</title>
+    <style>
+
+    *{
+      box-sizing: border-box;
+      font-family: 'Avenir Next'
+    }
+      body{
+        padding:0;
+        background-color: #a56d47;
+      }
+      .contain{
+        width:100%;
+        height:100%;
+        padding:50px;
+      }
+      h1{
+        color:white;
+        font-size:50px;
+        border-bottom:2px solid white;
+        display: block;
+      }
+      ul{
+        padding:0;
+      }
+      a{
+        text-decoration: none;
+        font-size: 20px;
+      }
+      a:hover{
+        text-decoration: underline;
+        transition:all ease-in-out 100ms;
+
+      }
+      li{
+        list-style:none;
+      }
+      .chatlist{
+        display:block;
+        background-color:white;
+        border:2px solid black;
+        padding:30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contain">
+      <div class="contain-content">
+        <a href="/logout">Logout</a>
+        <ul>
+          <li><h1>Chats open currently:</h1></li>
+          <li>
+            <div class="chatlist">
+              <h3>{{message}}</h3>
+            <ul>
+              {{#each chatsopen}}
+              <li>
+                <p>{{this.fromname}}: </p>
+                <a href="/admin/chatroomadmin/adminchat/{{this._id}}">{{ this._id }}</a>
+              </li>
+              {{/each}}
+            </ul>
+          </div>
+        </li>
+
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

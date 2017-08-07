@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-var Message = mongoose.Schema({
+var MessageCollection = mongoose.Schema({
   id: ObjectId,
   chatId: {
-    type: String,
-    required: true,
-    unique: true
+    type: String
   },
   fromname: {
     type: String
@@ -23,4 +21,4 @@ var Message = mongoose.Schema({
   }
 });
 
-var Message = module.exports = mongoose.model('Message', Message, 'messages');
+var Message = module.exports = mongoose.model('MessageCollection', MessageCollection, 'messages');

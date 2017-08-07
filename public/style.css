@@ -101,12 +101,14 @@ img.status{
 .main-chat{
 	overflow-y:scroll;
 	width:100%;
+	padding-bottom:10px;
 }
 .chatroom{
 	width:100%;
 	padding-top:30px;
 	padding-left:20px;
 	padding-right:20px;
+	padding-bottom:30px;
 }
 
 /* One-message */
@@ -141,6 +143,12 @@ p.message-content{
 }
 .user p.message-content{
 	float:right;
+}
+.user img{
+	float:right;
+	margin-right:10px;
+	margin-top:10px;
+	opacity:1;
 }
 
 li.date{
@@ -197,4 +205,15 @@ form button:hover{
 }
 form button:focus{
 	outline:none;
+}
+img.loading{
+	width:20px;
+	height:20px;
+	margin-left:10px;
+	animation: spin 1s infinite linear;
+}
+@-webkit-keyframes spin {
+		0%   {-webkit-transform: rotate(0deg)}
+		50% {-webkit-transform: rotate(-250deg)}
+		100% {-webkit-transform: rotate(-360deg)}
 }

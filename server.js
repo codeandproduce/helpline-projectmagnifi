@@ -10,6 +10,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 const User = require('./models/user');
+const MessageCollection = require('./models/message');
 // const csrf = require('csurf');
 
 
@@ -41,16 +42,69 @@ hbs.registerPartials(__dirname+'/views/partials');
 
 
 io.on('connection', (socket) => {
+  var name;
+  var path;
   console.log('user connected');
+  socket.on('path', (pathname) => {
+    path = pathname.path;
+    MessageCollection.findOne({
+      _id: `${path}`
+    },(err, chatroom) => {
+      if(!chatroom){
+        console.log('Couldnt find chatroom. This is the chat ID displayed', path);
+      }else{
+        name = chatroom.fromname;
+      }
+      if(err){
+        console.log(err);
+      }
+    });
+  });
 
+  socket.on('join room', (route) => {
+    socket.join(route.route);
+  });
+
+  socket.on('sendMessage', (message) => {
+    if(message.from === 'user'){
+      var sentMessage = new MessageCollection({
+        chatId: path,
+        fromname: name,
+        fromu:'user',
+        message: message.message,
+        type: 'message'
+      });
+    }
+    if(message.from === 'admin'){
+      var sentMessage = new MessageCollection({
+        chatId: path,
+        fromname: name,
+        fromu:'admin',
+        message: message.message,
+        type: 'message'
+      });
+    }
+
+    sentMessage.save((err) => {
+      if(err){
+        console.log(err);
+      }
+    });
+    setTimeout(()=>{
+      io.sockets.in(path).emit('messageSent',{
+        message: message.message,
+        from: message.from
+      });
+    }, 3000);
+
+  });
   socket.on('disconnect', (socket) => {
     console.log('user disconnected');
   });
-  socket.on('sendMessage', (message) => {
-    console.log('Message sent:', message.message);
-  });
+
 
 });
+
 
 
 //cookieName

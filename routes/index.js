@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 // const csrf = require('csurf');
 
 const User = require('./../models/user');
-const Message = require('./../models/message');
+const MessageCollection = require('./../models/message');
 
 const ObjectId = require('mongoose').Schema.ObjectId;
 
@@ -19,12 +19,10 @@ function requireLogin(req,res,next){
 
 var attempts = 0;
 
-var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+
+
 router.get('/', (req, res) => {
-  res.render('startchat', {
-    currentTime: time
-  });
-  attempts++;
+  res.render('startchat');
 });
 router.post('/', (req, res) => {
   var name = '';
@@ -33,8 +31,7 @@ router.post('/', (req, res) => {
   }else{
     name = req.body.name;
   }
-  var init = new Message({
-    chatId: bcrypt.hashSync(`ObjectId`, bcrypt.genSaltSync(10)),
+  var init = new MessageCollection({
     fromname: name,
     fromu: 'user',
     message:'init',
@@ -42,19 +39,45 @@ router.post('/', (req, res) => {
   });
   init.save((err) => {
     if(err){
-      console.log('err');
+      console.log(err);
     }else{
-      res.redirect('/chatroom/'+init.chatId);
+      res.redirect('/chatroom/'+init._id);
     }
   });
 });
 router.get('/chatroom/:chatId', (req, res) => {
-  var chatId = req.params.chatId;
-  res.render('index', {chatId});
+  var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+  MessageCollection.findOne({
+    _id: req.params.chatId
+  }, (err, chatroom) => {
+    if(!chatroom){
+      return res.send('This chatroom does not exist.');
+    }else{
+      res.render('index', {time: time});
+    }
+    if(err){
+      return res.send('Invalid');
+    }
+  });
 });
 
 router.get('/admin/chatroomadmin/adminchat', requireLogin, (req, res) => {
-  res.render('adminchat');
+  var chatroomsArr = [];
+  MessageCollection.find({
+    type: 'init'
+  }).cursor()
+  .on('data', (doc) => {
+    chatroomsArr.push(doc);
+  })
+  .on('error', (err) => {
+    return res.render('adminchat',{message:'No chats open at this time.'});
+  });
+  res.render('adminchat',{chatsopen: chatroomsArr});
+});
+router.get('/admin/chatroomadmin/adminchat/:chatId', requireLogin, (req, res) => {
+  var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+  var chatId = req.params.chatId;
+  res.render('adminchatview', {time});
 });
 
 router.get('/admin/chatroomadmin/login', (req, res) => {
