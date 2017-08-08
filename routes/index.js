@@ -64,7 +64,7 @@ router.get('/chatroom/:chatId', (req, res) => {
 router.get('/admin/chatroomadmin/adminchat', requireLogin, (req, res) => {
   var chatroomsArr = [];
   MessageCollection.find({
-    type: 'init'
+    type: "init"
   }).cursor()
   .on('data', (doc) => {
     chatroomsArr.push(doc);
