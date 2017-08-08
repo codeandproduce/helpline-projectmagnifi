@@ -14,7 +14,9 @@ const MessageCollection = require('./models/message');
 // const csrf = require('csurf');
 
 
-mongoose.connect('mongodb://localhost:/helpline');
+// mongoose.connect('mongodb://localhost:/helpline');
+// mongodb://<dbuser>:<dbpassword>@ds143231.mlab.com:43231/helpline
+mongoose.connect(process.env.MONGODB_URL);
 
 var port = process.env.PORT || 8000;
 
