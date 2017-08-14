@@ -2,12 +2,18 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 const bcrypt = require('bcryptjs');
-// const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
 
 const User = require('./../models/user');
 const MessageCollection = require('./../models/message');
 
 const ObjectId = require('mongoose').Schema.ObjectId;
+
+var csrfProtection = csrf();
+// var parseForm = bodyParser.urlencoded({ extended: false })
+
 
 function requireLogin(req,res,next){
   if(!req.user){
@@ -21,10 +27,10 @@ var attempts = 0;
 
 
 
-router.get('/', (req, res) => {
-  res.render('startchat');
+router.get('/', csrfProtection, (req, res) => {
+  res.render('startchat', { csrfToken: req.csrfToken() });
 });
-router.post('/', (req, res) => {
+router.post('/', csrfProtection, (req, res) => {
   var name = '';
   if(!req.body.name){
     name = 'Anonymous';
@@ -74,10 +80,22 @@ router.get('/admin/chatroomadmin/adminchat', requireLogin, (req, res) => {
   });
   res.render('adminchat',{chatsopen: chatroomsArr});
 });
+
 router.get('/admin/chatroomadmin/adminchat/:chatId', requireLogin, (req, res) => {
   var time = moment().format('MMMM Do YYYY, h:mm:ss a');
   var chatId = req.params.chatId;
-  res.render('adminchatview', {time});
+  MessageCollection.findOne({
+    _id: chatId
+  }, (err, chatroom) => {
+    if(!chatroom){
+      return res.send('This chatroom does not exist!');
+    }else{
+      res.render('adminchatview', {time});
+    }
+    if(err){
+      return res.send('Invalid');
+    }
+  });
 });
 
 router.get('/admin/chatroomadmin/login', (req, res) => {

@@ -5,18 +5,19 @@ const socketIO = require('socket.io');
 const http = require('http');
 const sessions = require('client-sessions');
 const hbs = require('hbs');
+const cookieParser = require('cookie-parser');
 
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 const User = require('./models/user');
 const MessageCollection = require('./models/message');
-// const csrf = require('csurf');
+const csrf = require('csurf');
 
 
 // mongoose.connect('mongodb://localhost:/helpline');
 // mongodb://<dbuser>:<dbpassword>@ds143231.mlab.com:43231/helpline
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:/helpline');
 
 var port = process.env.PORT || 8000;
 
@@ -28,6 +29,7 @@ var server = http.createServer(app);
 var io = socketIO(server);
 
 app.use('/public/', express.static(publicPath));
+// app.use(cookieParser());
 
 const routes = require('./routes/index');
 
@@ -92,13 +94,10 @@ io.on('connection', (socket) => {
         console.log(err);
       }
     });
-    setTimeout(()=>{
-      io.sockets.in(path).emit('messageSent',{
-        message: message.message,
-        from: message.from
-      });
-    }, 3000);
-
+    io.sockets.in(path).emit('messageSent',{
+      message: message.message,
+      from: message.from
+    });
   });
   socket.on('disconnect', (socket) => {
     console.log('user disconnected');
