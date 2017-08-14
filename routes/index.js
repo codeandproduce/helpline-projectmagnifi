@@ -74,11 +74,12 @@ router.get('/admin/chatroomadmin/adminchat', requireLogin, (req, res) => {
   }).cursor()
   .on('data', (doc) => {
     chatroomsArr.push(doc);
-  })
+    res.render('adminchat',{chatsopen: chatroomsArr});
+  });
   .on('error', (err) => {
     return res.render('adminchat',{message:'No chats open at this time.'});
   });
-  res.render('adminchat',{chatsopen: chatroomsArr});
+
 });
 
 router.get('/admin/chatroomadmin/adminchat/:chatId', requireLogin, (req, res) => {
