@@ -48,7 +48,7 @@ hbs.registerPartials(__dirname+'/views/partials');
 io.on('connection', (socket) => {
   var name;
   var path;
-  console.log('user connected');
+  // console.log('user connected');
   socket.on('path', (pathname) => {
     path = pathname.path;
     MessageCollection.findOne({
@@ -70,37 +70,41 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', (message) => {
-    if(message.from === 'user'){
-      var sentMessage = new MessageCollection({
-        chatId: path,
-        fromname: name,
-        fromu:'user',
-        message: message.message,
-        type: 'message'
+    // if(message.from === 'user'){
+      MessageCollection.findOne({
+        _id:path
+      },(err, dbdoc) => {
+        if(dbdoc){
+          dbdoc.messagesArray.push({from: message.from, message:message.message});
+          dbdoc.save((err) => {
+            if (err) return handleError(err);
+            io.sockets.in(path).emit('messageSent',{
+              message: message.message,
+              from: message.from
+            });
+          });
+        }
       });
-    }
-    if(message.from === 'admin'){
-      var sentMessage = new MessageCollection({
-        chatId: path,
-        fromname: name,
-        fromu:'admin',
-        message: message.message,
-        type: 'message'
-      });
-    }
-
-    sentMessage.save((err) => {
-      if(err){
-        console.log(err);
-      }
-    });
-    io.sockets.in(path).emit('messageSent',{
-      message: message.message,
-      from: message.from
-    });
+    // }
+    // if(message.from === 'admin'){
+      // var sentMessage = new MessageCollection({
+      //   chatId: path,
+      //   fromname: name
+      // });
+      // function push(callback){
+      //   sentMessage.messagesArray.push({from: message.from, message:message.message});
+      //   callback();
+      // }
+      // push(() => {
+      //   sentMessage.save();
+      //   io.sockets.in(path).emit('messageSent',{
+      //     message: message.message,
+      //     from: message.from
+      //   });
+      // });
   });
   socket.on('disconnect', (socket) => {
-    console.log('user disconnected');
+    // console.log('user disconnected');
   });
 
 

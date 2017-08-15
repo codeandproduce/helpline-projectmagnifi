@@ -4,18 +4,15 @@
     <title>Helpline</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link rel="stylesheet" href="/public/style.css"/>
+		<link rel="stylesheet" href="/public/adminspecific.css" />
 	</head>
 	<body>
-
-
 		<nav class="nav">
 			<div class="contain-nav-text">
 				<h4>HELPLINE</h4>
-
 			</div>
 		</nav>
 		<div class="contain">
-
 					<div class="sidebar">
 						<div class="contain-content sidebar-content">
 							<h5>Michelle is currently online</h5>
@@ -24,7 +21,6 @@
 							</div>
 						</div>
 					</div>
-
 						<div class="main-chat">
 							<div class="chatroom contain-content">
 								<ol class="contain-message-list">
@@ -32,36 +28,22 @@
 										<p>{{ time }}</p>
 										<hr />
 									</li>
-									<li class="user message">
+									{{#each pastmessages}}
+									<li class="{{this.from}} message">
 										<div class="one-message">
-											<img class="icon" src="/public/sampleMich.png"/>
+											<img class="icon" src="/public/{{this.from}}.png"/>
+											<p class="message-content">{{this.message}}</p>
+										</div>
+									</li>
+									{{/each}}
+									<!-- <li class="user message">
+										<div class="one-message">
+											<img class="icon" src="/public/admin.png"/>
 											<p class="message-content">Hi! I'm Michelle.</p>
-										</div>
-									</li>
-
-
-									<!-- <li class="admin message">
-										<div class="one-message">
-											<img class="icon" src="/public/sampleMich.png"/>
-											<p class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-										</div>
-									</li>
-									<li class="user message">
-										<div class="one-message">
-											<img class="icon" src="/public/common.png"/>
-											<p class="message-content">This is from the user.</p>
-										</div>
-									</li>
-									<li class="user message">
-										<div class="one-message">
-											<img class="icon" src="/public/common.png"/>
-											<p class="message-content">This is from the user.</p>
 										</div>
 									</li> -->
 								</ol>
 							</div>
-
-
 						</div>
 						<div class="message-footer">
 								<form class="message-form">
@@ -75,6 +57,9 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="/public/scripts/moment.js"></script>
 		<script type="text/javascript">
+		$(document).ready(function(){
+			$('.main-chat').scrollTop($('.main-chat')[0].scrollHeight);
+		});
 		$('input').focus();
 		var socket = io();
 		socket.on('connect', function(){
@@ -93,9 +78,9 @@
 		      message:removeTags($('[name=message]').val()),
 					from:'admin'
 		    });
-				$('.contain-message-list').append(`<li class='user message'>\
+				$('.contain-message-list').append(`<li class='admin message'>\
 		       <div class='one-message'>\
-		         <img class='icon' src='/public/sampleMich.png'/>\
+		         <img class='icon' src='/public/admin.png'/>\
 		         <p class='message-content'>${removeTags($('[name=message]').val())}</p>\
 		         <img class="loading" src="/public/loadwheel.png"/>\
 		       </div>\
@@ -108,9 +93,9 @@
 		socket.on('messageSent', function(information){
 			console.log('message sent called');
 			if(information.from === 'user'){
-				$('.contain-message-list').append(`<li class='admin message'>\
+				$('.contain-message-list').append(`<li class='user message'>\
 			     <div class='one-message'>\
-			       <img class='icon' src='/public/common.png'/>\
+			       <img class='icon' src='/public/user.png'/>\
 			       <p class='message-content'>${removeTags(information.message)}</p>\
 			     </div>\
 			   </li>`);

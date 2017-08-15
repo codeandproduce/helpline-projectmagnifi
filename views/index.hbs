@@ -4,18 +4,33 @@
     <title>Helpline</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link rel="stylesheet" href="/public/style.css"/>
+		<style>
+			.user .icon{
+				float:right;
+				margin-right:0;
+				margin-left:15px;
+			}
+			.user .one-message{
+				float:right;
+			}
+			.user p.message-content{
+				float:right;
+			}
+			.user img{
+				float:right;
+				margin-right:10px;
+				margin-top:10px;
+				opacity:1;
+			}`
+		</style>
 	</head>
 	<body>
-
-
 		<nav class="nav">
 			<div class="contain-nav-text">
 				<h4>HELPLINE</h4>
-
 			</div>
 		</nav>
 		<div class="contain">
-
 					<div class="sidebar">
 						<div class="contain-content sidebar-content">
 							<h5>Michelle is currently online</h5>
@@ -24,7 +39,6 @@
 							</div>
 						</div>
 					</div>
-
 						<div class="main-chat">
 							<div class="chatroom contain-content">
 								<ol class="contain-message-list">
@@ -32,12 +46,17 @@
 										<p>{{ time }}</p>
 										<hr />
 									</li>
-									<li class="admin message">
-										<div class="one-message">
-											<img class="icon" src="/public/sampleMich.png"/>
-											<p class="message-content">Hi! I'm Michelle.</p>
-										</div>
+									<li>
+										Start off by saying hi!
 									</li>
+									{{#each pastmessages}}
+										<li class="{{this.from}} message">
+											<div class="one-message">
+												<img class="icon" src="/public/{{this.from}}.png"/>
+												<p class="message-content">{{this.message}}</p>
+											</div>
+										</li>
+									{{/each}}
 									<!-- <li class="admin message">
 										<div class="one-message">
 											<img class="icon" src="/public/sampleMich.png"/>

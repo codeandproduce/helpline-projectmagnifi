@@ -1,5 +1,9 @@
 var socket = io(); //initiating the request & storing
 
+$(document).ready(function(){
+  $('.main-chat').scrollTop($('.main-chat')[0].scrollHeight);
+
+});
 socket.on('connect', function(){
   var path = window.location.pathname.replace('/chatroom/','');
   console.log("connected to server");
@@ -19,7 +23,7 @@ $('.message-form').on('submit', function(e){
     });
     $('.contain-message-list').append(`<li class='user message'>\
        <div class='one-message'>\
-         <img class='icon' src='/public/common.png'/>\
+         <img class='icon' src='/public/user.png'/>\
          <p class='message-content'>${removeTags($('[name=message]').val())}</p>\
          <img class="loading" src="/public/loadwheel.png"/>\
        </div>\

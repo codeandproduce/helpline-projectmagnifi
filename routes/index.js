@@ -14,6 +14,13 @@ const ObjectId = require('mongoose').Schema.ObjectId;
 var csrfProtection = csrf();
 // var parseForm = bodyParser.urlencoded({ extended: false })
 
+// hbs.registerHelpter('useroradmin', (user) => {
+//   if(user == 'user'){
+//     return 'user';
+//   }else{
+//     return 'admin';
+//   }
+// });
 
 function requireLogin(req,res,next){
   if(!req.user){
@@ -39,8 +46,6 @@ router.post('/', csrfProtection, (req, res) => {
   }
   var init = new MessageCollection({
     fromname: name,
-    fromu: 'user',
-    message:'init',
     type: 'init'
   });
   init.save((err) => {
@@ -59,7 +64,7 @@ router.get('/chatroom/:chatId', (req, res) => {
     if(!chatroom){
       return res.send('This chatroom does not exist.');
     }else{
-      res.render('index', {time: time});
+      res.render('index', {time: time, pastmessages: chatroom.messagesArray});
     }
     if(err){
       return res.send('Invalid');
@@ -91,7 +96,8 @@ router.get('/admin/chatroomadmin/adminchat/:chatId', requireLogin, (req, res) =>
     if(!chatroom){
       return res.send('This chatroom does not exist!');
     }else{
-      res.render('adminchatview', {time});
+      var pastmessages = chatroom.messagesArray;
+      res.render('adminchatview', {pastmessages});
     }
     if(err){
       return res.send('Invalid');
