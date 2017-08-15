@@ -29,11 +29,7 @@ function requireLogin(req,res,next){
     next();
   }
 }
-
 var attempts = 0;
-
-
-
 router.get('/', csrfProtection, (req, res) => {
   res.render('startchat', { csrfToken: req.csrfToken() });
 });

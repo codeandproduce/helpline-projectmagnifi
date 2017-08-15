@@ -37,7 +37,7 @@ socket.on('messageSent', function(information){
   if(information.from === 'admin'){
     $('.contain-message-list').append(`<li class='admin message'>\
        <div class='one-message'>\
-         <img class='icon' src='/public/sampleMich.png'/>\
+         <img class='icon' src='/public/admin.png'/>\
          <p class='message-content'>${removeTags(information.message)}</p>\
        </div>\
      </li>`);
