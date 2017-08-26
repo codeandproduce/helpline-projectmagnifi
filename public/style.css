@@ -206,5 +206,8 @@ img.loading{
 	.message-footer{
 		width:100%;
 	}
+	.submitButton{
+		display:none;
+	}
 
 }
