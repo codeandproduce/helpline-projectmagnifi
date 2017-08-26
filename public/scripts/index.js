@@ -2,7 +2,14 @@ var socket = io(); //initiating the request & storing
 
 $(document).ready(function(){
   $('.main-chat').scrollTop($('.main-chat')[0].scrollHeight);
-
+});
+socket.on('admin connected truly', function(){
+  $('.sidebar-content > h5').text('Michelle is currently online');
+  $('.status').attr('src', '/public/online.png');
+});
+socket.on('admin disconnected truly', function(){
+  $('.sidebar-content > h5').text("Michelle is currentnyl offline");
+  $('.status').attr('src', '/public/offline.png');
 });
 socket.on('connect', function(){
   var path = window.location.pathname.replace('/chatroom/','');
@@ -30,7 +37,6 @@ $('.message-form').on('submit', function(e){
      </li>`);
     $('[name="message"]').val('');
     $('.main-chat').scrollTop($('.main-chat')[0].scrollHeight);
-
   }
 });
 socket.on('messageSent', function(information){
@@ -52,4 +58,5 @@ function removeTags(string, array){
   function f(array, value){
     return array.map(function(d){ return value.includes(d + ">"); }).indexOf(true) != -1 ? "<" + value : value.split(">")[1];
   }
+  return string;
 }

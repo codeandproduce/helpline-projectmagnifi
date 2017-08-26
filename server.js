@@ -43,12 +43,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 hbs.registerPartials(__dirname+'/views/partials');
 // app.use(express.static(__dirname + '/public'));
 
-
+var adminconnected = false;
 
 io.on('connection', (socket) => {
   var name;
   var path;
-  // console.log('user connected');
+  socket.on('admin connected', () => {
+    io.emit('admin connected truly');
+  });
+  socket.on('admin disconnected', () => {
+    io.emit('admin disconnected truly');
+  });
   socket.on('path', (pathname) => {
     path = pathname.path;
     MessageCollection.findOne({
@@ -64,11 +69,9 @@ io.on('connection', (socket) => {
       }
     });
   });
-
   socket.on('join room', (route) => {
     socket.join(route.route);
   });
-
   socket.on('sendMessage', (message) => {
     // if(message.from === 'user'){
       MessageCollection.findOne({
@@ -104,13 +107,9 @@ io.on('connection', (socket) => {
       // });
   });
   socket.on('disconnect', (socket) => {
-    // console.log('user disconnected');
+    io.emit('admin disconnected truly');
   });
-
-
 });
-
-
 
 //cookieName
 app.use(sessions({

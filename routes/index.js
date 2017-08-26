@@ -92,15 +92,13 @@ router.get('/admin/chatroomadmin/adminchat/:chatId', requireLogin, (req, res) =>
     if(!chatroom){
       return res.send('This chatroom does not exist!');
     }else{
-      var pastmessages = chatroom.messagesArray;
-      res.render('adminchatview', {pastmessages});
+      return res.render('adminchatview', {pastmessages:chatroom.messagesArray});
     }
     if(err){
       return res.send('Invalid');
     }
   });
 });
-
 router.get('/admin/chatroomadmin/login', (req, res) => {
   res.render('adminlogin');
 });

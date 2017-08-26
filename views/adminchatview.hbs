@@ -36,12 +36,6 @@
 										</div>
 									</li>
 									{{/each}}
-									<!-- <li class="user message">
-										<div class="one-message">
-											<img class="icon" src="/public/admin.png"/>
-											<p class="message-content">Hi! I'm Michelle.</p>
-										</div>
-									</li> -->
 								</ol>
 							</div>
 						</div>
@@ -70,7 +64,11 @@
 			socket.emit('join room',{
 				route: route
 			});
+			socket.emit('admin connected');
 		});
+		// socket.on('disconnect', function(){
+		// 	socket.emit('admin disconnected');
+		// });
 		$('.message-form').on('submit', function(e){
 		  e.preventDefault();
 		  if($('[name="message"]').val() !== ''){
@@ -91,7 +89,6 @@
 		});
 
 		socket.on('messageSent', function(information){
-			console.log('message sent called');
 			if(information.from === 'user'){
 				$('.contain-message-list').append(`<li class='user message'>\
 			     <div class='one-message'>\
