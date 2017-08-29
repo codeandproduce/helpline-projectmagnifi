@@ -29,6 +29,7 @@ var server = http.createServer(app);
 var io = socketIO(server);
 
 app.use('/public/', express.static(publicPath));
+app.use('/', express.static(publicPath));
 // app.use(cookieParser());
 
 const routes = require('./routes/index');
