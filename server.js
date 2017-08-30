@@ -17,6 +17,7 @@ const csrf = require('csurf');
 
 // mongoose.connect('mongodb://localhost:/helpline');
 // mongodb://<dbuser>:<dbpassword>@ds143231.mlab.com:43231/helpline
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:/helpline');
 
 var port = process.env.PORT || 8000;
