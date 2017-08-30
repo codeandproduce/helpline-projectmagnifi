@@ -46,9 +46,9 @@ router.post('/', csrfProtection, (req, res) => {
   });
   init.save((err) => {
     if(err){
-      console.log(err);
+      return console.log(err);
     }else{
-      res.redirect('/chatroom/'+init._id);
+      return es.redirect('/chatroom/'+init._id);
     }
   });
 });
@@ -60,7 +60,7 @@ router.get('/chatroom/:chatId', (req, res) => {
     if(!chatroom){
       return res.send('This chatroom does not exist.');
     }else{
-      res.render('index', {time: time, pastmessages: chatroom.messagesArray});
+      return res.render('index', {time: time, pastmessages: chatroom.messagesArray});
     }
     if(err){
       return res.send('Invalid');
@@ -74,7 +74,7 @@ router.get('/admin/chatroomadmin/adminchat', requireLogin, (req, res) => {
   }).cursor()
   .on('data', (doc) => {
     chatroomsArr.push(doc);
-    res.render('adminchat',{chatsopen: chatroomsArr});
+    return res.render('adminchat',{chatsopen: chatroomsArr});
   })
   .on('error', (err) => {
     return res.render('adminchat',{message:'No chats open at this time.'});
@@ -99,11 +99,11 @@ router.get('/admin/chatroomadmin/adminchat/:chatId', requireLogin, (req, res) =>
   });
 });
 router.get('/admin/chatroomadmin/login', (req, res) => {
-  res.render('adminlogin');
+  return res.render('adminlogin');
 });
 router.get('/logout', (req,res) => {
   req.session.reset();
-  res.redirect('/');
+  return res.redirect('/');
 });
 router.post('/admin/chatroomadmin/login', (req, res) => {
   User.findOne({
@@ -111,21 +111,21 @@ router.post('/admin/chatroomadmin/login', (req, res) => {
   },(err, user) => {
     console.log(req.body.email);
     if(!user){
-      res.render('adminlogin', {
+      return res.render('adminlogin', {
         error: "Invalid"});
     }else{
       if(bcrypt.compareSync(req.body.password, user.password)){
         console.log('matched');
         req.session.user = user;
-        res.redirect('adminchat');
+        return res.redirect('adminchat');
       }else{
         var error = "Incorrect password or email";
-        res.render('adminlogin',{error});
+        return res.render('adminlogin',{error});
       }
     }
     if(err){
       var error = "No such user exists.";
-      res.render('adminlogin', {error});
+      return res.render('adminlogin', {error});
     }
   });
 });
