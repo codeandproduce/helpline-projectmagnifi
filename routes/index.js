@@ -31,7 +31,7 @@ function requireLogin(req,res,next){
 }
 var attempts = 0;
 router.get('/', csrfProtection, (req, res) => {
-  res.render('startchat', { csrfToken: req.csrfToken() });
+  return res.render('startchat', { csrfToken: req.csrfToken() });
 });
 router.post('/', csrfProtection, (req, res) => {
   var name = '';
@@ -48,7 +48,7 @@ router.post('/', csrfProtection, (req, res) => {
     if(err){
       return console.log(err);
     }else{
-      return es.redirect('/chatroom/'+init._id);
+      return res.redirect('/chatroom/'+init._id);
     }
   });
 });
